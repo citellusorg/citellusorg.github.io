@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Citellus</title>
+        <link rel="stylesheet" href="https://citellusorg.github.io/theme/css/main.css" />
+        <link href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Citellus Atom Feed" />
+        <link href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate" title="Citellus RSS Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://citellusorg.github.io/">Citellus  <strong>Automate your troubleshooting</strong></a></h1>
+                <nav><ul>
+    
+                        <li><a href="https://citellusorg.github.io/">About</a></li>
+    
+                        <li class="active"><a href="https://citellusorg.github.io/citellus/">Citellus</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/contributing/">Contributing</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/magui/">Magui</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/timeline/">Timeline</a></li>
+                    <li><a href="https://citellusorg.github.io/blog/category/blog/">blog</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+    <h1 class="entry-title">Citellus</h1>
+    
+    <p><img src="../images/citellus-mini.png" width="20%" border=0 align="right" alt='Citellus logo'></p>
+<p><strong>Table of&nbsp;contents</strong></p>
+<!-- TOC depthFrom:1 insertAnchor:true orderedList:true -->
+
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#highlights">Highlights</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage-help">Usage&nbsp;help</a></li>
+<li><a href="#plugins-and-their-descriptions">Plugins and their&nbsp;descriptions</a></li>
+<li><a href="#doing-a-live-check-example">Doing a live check&nbsp;example</a></li>
+<li><a href="#doing-a-fs-snapshot-check-example">Doing a fs snapshot check&nbsp;example</a></li>
+<li><a href="#html-interface"><span class="caps">HTML</span>&nbsp;Interface</a></li>
+<li><a href="#ansible-playbooks">Ansible&nbsp;playbooks</a></li>
+</ul>
+<!-- /TOC -->
+
+<p><a id="markdown-introduction" name="introduction"></a></p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Citellus is a program that should help with system configuration validation on either live system or any sort of snapshot of the&nbsp;filesystem.</p>
+<p>Via execution of &#8216;plugins&#8217; it reports status on each one execution against the system that gives you an idea on health status, actual problems or problems that will reveal themselves if no preventive action is&nbsp;taken.</p>
+<p>Please if you have any idea on any improvements please do not hesitate to open an&nbsp;issue.</p>
+<p><a id="markdown-highlights" name="highlights"></a></p>
+<h2 id="highlights">Highlights<a class="headerlink" href="#highlights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Plugins written in your language of&nbsp;choice.</li>
+<li>Allows to dump output to json file to be processed by other&nbsp;tools.</li>
+<li>Allow to visualize html from json&nbsp;output.</li>
+<li>Check our sample at: <a href="/citellus.html">Citellus-www</a></li>
+<li>Ansible playbook&nbsp;support.</li>
+<li>Save / restore default&nbsp;settings</li>
+</ul>
+<p>Check latest changes on <a href="https://citellusorg.github.io/timeline/">Changelog.md</a></p>
+<p>Check for plugins listing on <a href="citellusclient/plugins/">citellusclient/plugins/</a></p>
+<p><a id="markdown-installation" name="installation"></a></p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Just clone the git repository and execute it from there&nbsp;&#8216;or&#8217;</li>
+<li>use &#8216;pipsi&#8217; or create a python virtual env to install package &#8216;citellus&#8217;
+  <code>sh
+  # pipsi install citellus
+  Already using interpreter /usr/bin/python3
+  Using base prefix '/usr'
+  New python executable in /home/iranzo/.local/venvs/citellus/bin/python3
+  Also creating executable in /home/iranzo/.local/venvs/citellus/bin/python
+  Installing setuptools, pip, wheel...done.
+  Collecting citellus
+  Installing collected packages: citellus
+  Successfully installed citellus-0.1.0.dev1072
+    Linked script /home/iranzo/.local/bin/citellus.py
+    Linked script /home/iranzo/.local/bin/magui.py
+  Done.</code></li>
+<li>Pipsi will take care of installing a virtual environment and link to binary folder so you can call citellus.py or magui.py&nbsp;directly</li>
+<li>Remember that pypi package might not contain all the latests plugins features as the github repo&nbsp;one.</li>
+<li>Container:</li>
+<li>Use our automatically built container in docker hub:<ul>
+<li><code>docker run --user=$(id -u) --rm -v $PATHTOSOSREPORT:/data:Z citellus/citellus:latest /data</code></li>
+</ul>
+</li>
+<li>or build your own using the included <code>Dockerfile</code> in the git checkout.<ul>
+<li><code>docker build . -f Dockerfile.centos7-atomic -t citellus:latest</code> # (from git checkout, then note image&nbsp;id)</li>
+<li><code>docker run --user=$(id -u) --rm -v $PATHTOSOSREPORT:/data:Z citellus:latest /data</code></li>
+</ul>
+</li>
+<li>Notes about using docker:<ul>
+<li>Docker passes as volume the path specified under /data so we do use that parameter with citellus for running the&nbsp;tests.</li>
+<li>The default user id within the container is 10001 and the commands or sosreport permissions doesn&#8217;t allow that user to gather all the information, so the container is required to run as the current&nbsp;user.</li>
+</ul>
+</li>
+</ul>
+<p><a id="markdown-usage-help" name="usage-help"></a></p>
+<h2 id="usage-help">Usage help<a class="headerlink" href="#usage-help" title="Permanent link">&para;</a></h2>
+<p>We are developing framework in python, the bash framework has been deprecated. Python framework is the only supported&nbsp;framework.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">usage</span><span class="err">:</span><span class="w"> </span><span class="n">citellus</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="o">[</span><span class="n">arguments</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-h</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-l</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--list-plugins</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--list-extensions</span><span class="o">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">--list-categories</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--description</span><span class="o">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">--list-hooks</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--output FILENAME</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--web</span><span class="o">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">--run</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--find</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--blame</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--lang</span><span class="o">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">--only-failed</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-v</span><span class="o">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">-d {INFO,DEBUG,WARNING,ERROR,CRITICAL}</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-q</span><span class="o">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">-i SUBSTRING</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-x SUBSTRING</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-p [0-1000</span><span class="o">]</span><span class="err">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">-hf SUBSTRING</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--dump-config</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--no-config</span><span class="o">]</span><span class="w"></span>
+<span class="w">                               </span><span class="o">[</span><span class="n">sosreport</span><span class="o">]</span><span class="w"></span>
+
+<span class="n">Citellus</span><span class="w"> </span><span class="n">allows</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">analyze</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">directory</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">common</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="n">useful</span><span class="w"> </span><span class="k">for</span><span class="w"></span>
+<span class="n">finding</span><span class="w"> </span><span class="n">common</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">errors</span><span class="w"></span>
+
+<span class="n">positional</span><span class="w"> </span><span class="nl">arguments</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="n">sosreport</span><span class="w"></span>
+
+<span class="n">optional</span><span class="w"> </span><span class="nl">arguments</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">help</span><span class="w">            </span><span class="n">show</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">help</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">exit</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">live</span><span class="w">            </span><span class="k">Work</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">live</span><span class="w"> </span><span class="k">system</span><span class="w"> </span><span class="n">instead</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">snapshot</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">plugins</span><span class="w">        </span><span class="k">Print</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">discovered</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">exit</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">extensions</span><span class="w">     </span><span class="k">Print</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">discovered</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">exit</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">categories</span><span class="w">     </span><span class="k">With</span><span class="w"> </span><span class="n">list</span><span class="o">-</span><span class="n">plugins</span><span class="p">,</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nf">count</span><span class="w"> </span><span class="k">of</span><span class="w"></span>
+<span class="w">                        </span><span class="n">discovered</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="n">categories</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">description</span><span class="w">         </span><span class="k">With</span><span class="w"> </span><span class="n">list</span><span class="o">-</span><span class="n">plugins</span><span class="p">,</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="n">outputs</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="n">description</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">hooks</span><span class="w">          </span><span class="k">Print</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">discovered</span><span class="w"> </span><span class="n">hooks</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">exit</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="k">output</span><span class="w"> </span><span class="n">FILENAME</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">o</span><span class="w"> </span><span class="n">FILENAME</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Write</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">JSON</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="n">FILENAME</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">web</span><span class="w">                 </span><span class="k">Write</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">JSON</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="n">citellus</span><span class="p">.</span><span class="n">json</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">copy</span><span class="w"> </span><span class="n">html</span><span class="w"></span>
+<span class="w">                        </span><span class="n">interface</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">path</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="o">--</span><span class="k">output</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">run</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w">             </span><span class="n">Force</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">citellus</span><span class="w"> </span><span class="n">instead</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">reading</span><span class="w"> </span><span class="n">existing</span><span class="w"></span>
+<span class="w">                        </span><span class="s1">&#39;citellus.json&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">find</span><span class="w">                </span><span class="k">Use</span><span class="w"> </span><span class="n">provided</span><span class="w"> </span><span class="k">path</span><span class="w"> </span><span class="k">at</span><span class="w"> </span><span class="n">starting</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">finding</span><span class="w"></span>
+<span class="w">                        </span><span class="n">citellus</span><span class="p">.</span><span class="n">json</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="n">them</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">filters</span><span class="w"> </span><span class="n">defined</span><span class="w"></span>
+
+<span class="k">Output</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">logging</span><span class="w"> </span><span class="nl">options</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">blame</span><span class="w">               </span><span class="n">Report</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="n">spent</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">plugin</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">lang</span><span class="w">                </span><span class="n">Define</span><span class="w"> </span><span class="n">locale</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">use</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="k">only</span><span class="o">-</span><span class="n">failed</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">F</span><span class="w">     </span><span class="k">Only</span><span class="w"> </span><span class="n">show</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="n">tests</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">verbose</span><span class="w">         </span><span class="n">Increase</span><span class="w"> </span><span class="n">verbosity</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">output</span><span class="w"> </span><span class="p">(</span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">more</span><span class="w"></span>
+<span class="w">                        </span><span class="k">than</span><span class="w"> </span><span class="n">once</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">d</span><span class="w"> </span><span class="err">{</span><span class="n">INFO</span><span class="p">,</span><span class="n">DEBUG</span><span class="p">,</span><span class="n">WARNING</span><span class="p">,</span><span class="n">ERROR</span><span class="p">,</span><span class="n">CRITICAL</span><span class="err">}</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">loglevel</span><span class="w"> </span><span class="err">{</span><span class="n">INFO</span><span class="p">,</span><span class="n">DEBUG</span><span class="p">,</span><span class="n">WARNING</span><span class="p">,</span><span class="n">ERROR</span><span class="p">,</span><span class="n">CRITICAL</span><span class="err">}</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Set</span><span class="w"> </span><span class="nf">log</span><span class="w"> </span><span class="k">level</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">quiet</span><span class="w">           </span><span class="n">Enable</span><span class="w"> </span><span class="n">quiet</span><span class="w"> </span><span class="n">mode</span><span class="w"></span>
+
+<span class="n">Filtering</span><span class="w"> </span><span class="nl">options</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">i</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="k">include</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Only</span><span class="w"> </span><span class="k">include</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="nf">substring</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">x</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">exclude</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Exclude</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="nf">substring</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">[</span><span class="n">0-1000</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">prio</span><span class="w"> </span><span class="o">[</span><span class="n">0-1000</span><span class="o">]</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Only</span><span class="w"> </span><span class="k">include</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">above</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">prio</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">hf</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">hfilter</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Only</span><span class="w"> </span><span class="k">include</span><span class="w"> </span><span class="n">hooks</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="nf">substring</span><span class="w"></span>
+
+<span class="n">Config</span><span class="w"> </span><span class="nl">options</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="k">dump</span><span class="o">-</span><span class="n">config</span><span class="w">         </span><span class="k">Dump</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">console</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">saved</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="k">file</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="k">no</span><span class="o">-</span><span class="n">config</span><span class="w">           </span><span class="n">Do</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="k">read</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">iranzo</span><span class="o">/</span><span class="n">DEVEL</span><span class="w"></span>
+<span class="w">                        </span><span class="o">/</span><span class="n">citellus</span><span class="o">/</span><span class="n">citellusclient</span><span class="o">/</span><span class="n">citellus</span><span class="p">.</span><span class="n">conf</span><span class="w"> </span><span class="ow">or</span><span class="w"></span>
+<span class="w">                        </span><span class="o">~/</span><span class="p">.</span><span class="n">citellus</span><span class="p">.</span><span class="n">conf</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Check how does it look in an execution at:
+<a href="https://asciinema.org/a/169814"><img src="https://asciinema.org/a/169814.png" width="100%" border=0  alt='Citellus demo'></a></p>
+<p><a id="markdown-plugins-and-their-descriptions" name="plugins-and-their-descriptions"></a></p>
+<h2 id="plugins-and-their-descriptions">Plugins and their descriptions<a class="headerlink" href="#plugins-and-their-descriptions" title="Permanent link">&para;</a></h2>
+<p>This is new feature of citellus that will show you available scripts and their&nbsp;description.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>.<span class="o">/</span><span class="nv">citellus</span>.<span class="nv">py</span> <span class="o">--</span><span class="nv">list</span><span class="o">-</span><span class="nv">plugins</span> <span class="o">--</span><span class="nv">description</span>
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">This plugin checks if Apache reaches its MaxRequestWorkers</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/httpd/1406417.sh</span><span class="s1">&#39;</span>}
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">Checks missconfigured host in nova vs hostname</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/openstack/ceilometer/1483456.sh</span><span class="s1">&#39;</span>}
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">Checks for outdated ceph packages</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/openstack/ceph/1358697.sh</span><span class="s1">&#39;</span>}
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">Checks httpd WSGIApplication defined to avoid wrong redirection</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/openstack/httpd/1478042.sh</span><span class="s1">&#39;</span>}
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">Checks for keystone transaction errors on cleanup</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/openstack/keystone/1473713.sh</span><span class="s1">&#39;</span>}
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">Checks for keystone LDAP domain template problem</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/openstack/keystone/templates/1519057.sh</span><span class="s1">&#39;</span>}
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">Checks for wrong auth_url configuration in metadata_agent.ini</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron/1340001.sh</span><span class="s1">&#39;</span>}
+{<span class="s1">&#39;</span><span class="s">backend</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">core</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">Checks python-ryu tracebacks</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">plugin</span><span class="s1">&#39;</span>: <span class="s1">&#39;</span><span class="s">/home/iranzo/DEVEL/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron/1450223.sh</span><span class="s1">&#39;</span>}
+</code></pre></div>
+</td></tr></table>
+<p><a id="markdown-doing-a-live-check-example" name="doing-a-live-check-example"></a></p>
+<h2 id="doing-a-live-check-example">Doing a live check example<a class="headerlink" href="#doing-a-live-check-example" title="Permanent link">&para;</a></h2>
+<p>This is an example of execution of Citellus using all openstack and pacemaker tests&nbsp;collections.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>./citellus.py -q -l -i pacemaker -i openstack
+INFO:citellus:using default plugin path
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/ceilometer_bug_1483456.sh: failed
+    https://bugzilla.redhat.com/show_bug.cgi?id=1483456
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/ceph_bug_1358697.sh: failed
+    outdated ceph packages: https://bugzilla.redhat.com/show_bug.cgi?id=1358697
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/httpd_bug_1478042.sh: skipped
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/keystone_bug_1473713.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron_bug_1450223.sh: skipped
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron_bug_1474092.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron_bug_1489066.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/nova_bug_1474092.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/swift_bug_1500607.sh: failed
+    swift expirer https://bugzilla.redhat.com/show_bug.cgi?id=1500607
+# /root/citellus/citellusclient/plugins/core/launchpad/openstack/keystone_bug_1649616.sh: okay
+# /root/citellus/citellusclient/plugins/core/openstack/ceilometer/expiration.sh: failed
+    ceilometer.conf setting must be updated:
+    alarm_history_time_to_live = -1
+    ceilometer.conf setting must be updated:
+    event_time_to_live = -1
+    ceilometer.conf setting must be updated:
+    metering_time_to_live = -1
+</code></pre></div>
+</td></tr></table>
+<p><a id="markdown-doing-a-fs-snapshot-check-example" name="doing-a-fs-snapshot-check-example"></a></p>
+<h2 id="doing-a-fs-snapshot-check-example">Doing a fs snapshot check example<a class="headerlink" href="#doing-a-fs-snapshot-check-example" title="Permanent link">&para;</a></h2>
+<p>This is an example of execution of Citellus using <code>pacemaker</code> and <code>openstack</code> filter against fs&nbsp;snapshot.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>./citellus.py -q -i pacemaker -i openstack sosreport-undercloud-0.redhat.local-20171117212710/
+INFO:citellus:using default plugin path
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/ceilometer_bug_1483456.sh: failed
+    https://bugzilla.redhat.com/show_bug.cgi?id=1483456
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/ceph_bug_1358697.sh: failed
+    outdated ceph packages: https://bugzilla.redhat.com/show_bug.cgi?id=1358697
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/httpd_bug_1478042.sh: skipped
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/keystone_bug_1473713.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron_bug_1450223.sh: skipped
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron_bug_1474092.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/neutron_bug_1489066.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/nova_bug_1474092.sh: okay
+# /root/citellus/citellusclient/plugins/core/bugzilla/openstack/swift_bug_1500607.sh: failed
+    swift expirer https://bugzilla.redhat.com/show_bug.cgi?id=1500607
+# /root/citellus/citellusclient/plugins/core/launchpad/openstack/keystone_bug_1649616.sh: okay
+# /root/citellus/citellusclient/plugins/core/openstack/ceilometer/expiration.sh: failed
+    ceilometer.conf setting must be updated:
+    alarm_history_time_to_live = -1
+    ceilometer.conf setting must be updated:
+    event_time_to_live = -1
+    ceilometer.conf setting must be updated:
+    metering_time_to_live = -1
+</code></pre></div>
+</td></tr></table>
+<p><a id="markdown-html-interface" name="html-interface"></a></p>
+<h2 id="html-interface"><span class="caps">HTML</span> Interface<a class="headerlink" href="#html-interface" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Create by using <code>--output $FOLDER</code> and <code>--web</code>, open the generated <code>citellus.html</code>.</li>
+</ul>
+<p><img src="../images/www.png" height="40%" border=0 alt='WWW interface capture'></p>
+<ul>
+<li>
+<p>Citellus-web now supports the parsing of&nbsp;magui.json.</p>
+</li>
+<li>
+<p>It&#8217;s possible to tell the citellus.html which json to parse by adding json=<jsonfile> as a query&nbsp;string:</p>
+</li>
+</ul>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>http://host/citellus.html?json=magui.json
+</code></pre></div>
+</td></tr></table>
+<p><a id="markdown-ansible-playbooks" name="ansible-playbooks"></a></p>
+<h2 id="ansible-playbooks">Ansible playbooks<a class="headerlink" href="#ansible-playbooks" title="Permanent link">&para;</a></h2>
+<p>Citellus can also run Ansible playbooks via&nbsp;extension</p>
+<p>The are some additional conventions that are detailed in <a href="doc/ansible-playbooks.md">ansible-playbooks.md</a> that determine how to code them to be executed in live or snapshoot&nbsp;mode.</p>
+<p>Commands have been extended to allow <code>--list-plugins</code> to list them and include /exclude filters to work with&nbsp;them.</p>
+<p>All of them must end in <code>.yml</code>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nv">found</span> <span class="sc">#1</span> <span class="nv">extensions</span> <span class="o">/</span> <span class="nv">found</span> <span class="sc">#0</span> <span class="nv">tests</span> <span class="nv">at</span> <span class="nv">default</span> <span class="nv">path</span>
+<span class="nv">mode</span>: <span class="nv">fs</span> <span class="nv">snapshot</span> .
+# <span class="nv">Running</span> <span class="nv">extension</span> <span class="nv">ansible</span><span class="o">-</span><span class="nv">playbook</span>
+# <span class="o">/</span><span class="nv">home</span><span class="o">/</span><span class="nv">iranzo</span><span class="o">/</span><span class="nv">DEVEL</span><span class="o">/</span><span class="nv">citellus</span><span class="o">/</span><span class="nv">citellus</span><span class="o">/</span><span class="nv">playbooks</span><span class="o">/</span><span class="nv">system</span><span class="o">/</span><span class="nv">clock</span><span class="o">-</span><span class="nv">ntpstat</span>.<span class="nv">yml</span>: <span class="nv">skipped</span>
+    <span class="nv">Skipped</span> <span class="k">for</span> <span class="nv">incompatible</span> <span class="nv">operating</span> <span class="nv">mode</span>
+</code></pre></div>
+</td></tr></table>
+<p>vs</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>found #2 extensions with #2 plugins
+mode: live
+# /home/iranzo/DEVEL/citellus/citellusclient/plugins/ansible/openstack/rabbitmq/ha-policies.yml: okay
+# /home/iranzo/DEVEL/citellus/citellusclient/plugins/ansible/system/clock-ntpstat.yml: failed
+    {&quot;changed&quot;: false, &quot;cmd&quot;: &quot;ntpstat&quot;, &quot;msg&quot;: &quot;[Errno 2] No such file or directory&quot;,
+</code></pre></div>
+</td></tr></table>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="https://github.com/citellusorg">github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-81705-14']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+</body>
+</html>

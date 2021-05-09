@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Recent changes in Magui and Citellus</title>
+        <link rel="stylesheet" href="https://citellusorg.github.io/theme/css/main.css" />
+        <link href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Citellus Atom Feed" />
+        <link href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate" title="Citellus RSS Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://citellusorg.github.io/">Citellus  <strong>Automate your troubleshooting</strong></a></h1>
+                <nav><ul>
+    
+                        <li><a href="https://citellusorg.github.io/">About</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/citellus/">Citellus</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/contributing/">Contributing</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/magui/">Magui</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/timeline/">Timeline</a></li>
+                    <li class="active"><a href="https://citellusorg.github.io/blog/category/blog/">blog</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://citellusorg.github.io/blog/2018/01/16/recent-changes-in-magui-and-citellus/" rel="bookmark"
+           title="Permalink to Recent changes in Magui and Citellus">Recent changes in Magui and&nbsp;Citellus</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <span>Tue 16 January 2018</span>
+<span>| tags: <a href="https://citellusorg.github.io/blog/tag/citellus/">citellus</a><a href="https://citellusorg.github.io/blog/tag/magui/">magui</a><a href="https://citellusorg.github.io/blog/tag/whatsnew/">whatsnew</a></span>
+</footer><!-- /.post-info -->      <p><strong>Table of&nbsp;contents</strong></p>
+<!-- TOC depthFrom:1 insertAnchor:true orderedList:true -->
+
+<ol>
+<li><a href="#whats-new">What&#8217;s&nbsp;new?</a></li>
+<li><a href="#citellus">Citellus</a></li>
+<li><a href="#magui">Magui</a></li>
+<li><a href="#wrap-up">Wrap&nbsp;up!</a></li>
+</ol>
+<!-- /TOC -->
+
+<p><a id="markdown-whats-new" name="whats-new"></a></p>
+<h2 id="whats-new">What&#8217;s new?<a class="headerlink" href="#whats-new" title="Permanent link">&para;</a></h2>
+<p>During recent weeks we&#8217;ve been coding and performing several changes to <a href="https://iranzo.github.io/blog/2017/07/26/Citellus-framework-for-detecting-known-issues/">Citellus</a> and <a href="https://iranzo.github.io/blog/2017/07/31/Magui-for-analysis-of-issues-across-several-hosts/">Magui</a>.</p>
+<p>Checking the latest logs or list of issues open and closed on github is probably not an easy task or the best way to get &#8216;up-to-date&#8217; with changes, so I&#8217;ll try to compile a few&nbsp;here.</p>
+<p>First of all, we&#8217;re going to present it at <a href="https://devconfcz2018.sched.com/event/DJXG/detect-pitfalls-of-osp-deployments-with-citellus">Devconf.cz 2018</a>, so come stop-by if assisting&nbsp;:-)</p>
+<p>Some of the changes&nbsp;include&#8230;</p>
+<p><a id="markdown-citellus" name="citellus"></a></p>
+<h3 id="citellus">Citellus<a class="headerlink" href="#citellus" title="Permanent link">&para;</a></h3>
+<ul>
+<li>New functions for bash&nbsp;scripts!</li>
+<li>We&#8217;ve created lot of functions to check different things:<ul>
+<li>installed&nbsp;rpm</li>
+<li>rpm over specific&nbsp;version</li>
+<li>compare dates over X&nbsp;days</li>
+<li>regexp in&nbsp;file</li>
+<li>etc..</li>
+</ul>
+</li>
+<li>Functions do allow to do quicker plugin&nbsp;development.</li>
+<li>save/restore options so they can be loaded automatically for each&nbsp;execution</li>
+<li>Think of enabled filters, excluded,&nbsp;etc</li>
+<li>metadata added for plugins and returned as&nbsp;dictionary</li>
+<li>plugin has a unique <span class="caps">ID</span> for all installations based on plugin relative path and plugin&nbsp;name</li>
+<li>We do use that <span class="caps">ID</span> in magui to select the plugin data we&#8217;ll be acting&nbsp;on</li>
+<li>plugin&nbsp;priority!</li>
+<li>Plugins are assigned a number between 0 and 1000 that represents how likely it&#8217;s going to affect your environment, and you can filter also on it with <code>--prio</code></li>
+<li>extended via &#8216;extensions&#8217; to provide support for other&nbsp;plugins</li>
+<li>moved prior plugins to be <code>core</code> extension</li>
+<li>ansible playbook support via <code>ansible-playbook</code> command</li>
+<li>metadata plugins that just generate metadata (hostname, date for sosreport,&nbsp;etc)</li>
+<li>Web&nbsp;Interface!!</li>
+<li><a href="https://valleedelisle.com/">David Valee Delisle</a> did a great job on preparing an html that loads citellus.json and shows it&nbsp;graphically.</li>
+<li>Thanks to his work, we did extended some other features like priority, categories, etc that are calculated via citellus and consumed via&nbsp;citellus-www.</li>
+<li>Interface can also load <code>magui.json</code> (with <code>?json=magui.json</code>) and show it&#8217;s&nbsp;output.</li>
+<li>We did extend citellus to take <code>--web</code> to automatically create the json named <code>citellus.json</code> on the folder specified with <code>-o</code> and copy the <code>citellus.html</code> file there. So if you provide sosreports over http, you can point to citellus.html to see graphical status! (check latest image at citellus website as <a href="https://github.com/citellusorg/citellus/raw/master/doc/images/www.png">www.png</a>&nbsp;)</li>
+<li>Increased plugin&nbsp;count!</li>
+<li>Now we do have more than 119 across different&nbsp;categories</li>
+<li>A new plugin in python <code>reboot.py</code> that checks for unexpected&nbsp;reboots</li>
+<li>Spectre/Meltdown security&nbsp;checks!</li>
+</ul>
+<p><a id="markdown-magui" name="magui"></a></p>
+<h3 id="magui">Magui<a class="headerlink" href="#magui" title="Permanent link">&para;</a></h3>
+<ul>
+<li>If there&#8217;s an existing <code>citellus.json</code> magui does load it to speed it up process across multiple&nbsp;sosreports.</li>
+<li>Magui can also use <code>ansible-playbook</code> to copy citellus program to remote host and run there the command, and bring back the generated <code>citellus.json</code> so you can quickly run citellus across several hosts without having to manually perform operations or generate&nbsp;sosreports.</li>
+<li>Moved prior data to two&nbsp;plugins:</li>
+<li><code>citellus-outputs</code><ul>
+<li>Citellus plugins output arranged by plugin and&nbsp;sosreport</li>
+</ul>
+</li>
+<li><code>citellus-metadata</code><ul>
+<li>Outputs metadata gathered by <code>metadata</code> plugins in citellus arranged by plugin and&nbsp;sosreport</li>
+</ul>
+</li>
+<li>First plugins that compare data received from citellus on global&nbsp;level</li>
+<li>Plugins are written in python and use each plugin <code>id</code> to just work on the data they know how to&nbsp;process</li>
+<li><code>pipeline-yaml</code><ul>
+<li>Checks if pipeline.yaml and warns if is different across&nbsp;hosts</li>
+</ul>
+</li>
+<li><code>seqno</code><ul>
+<li>Checks latest galera seqno on&nbsp;hosts</li>
+</ul>
+</li>
+<li><code>release</code><ul>
+<li>Reports <span class="caps">RHEL</span> release across hosts and warns if is different across&nbsp;hosts</li>
+</ul>
+</li>
+<li>Enable <code>quiet</code> mode on the data received from citellus as well as local plugins, so only outputs with <span class="caps">ERROR</span> or different output on sosreports is shown, even on magui&nbsp;plugins.</li>
+</ul>
+<p><a id="markdown-wrap-up" name="wrap-up"></a></p>
+<h2 id="wrap-up">Wrap up!<a class="headerlink" href="#wrap-up" title="Permanent link">&para;</a></h2>
+<p>As you can see we&#8217;ve been busy trying to improve plugins, Citellus framework and Magui as&nbsp;well.</p>
+<p>We&#8217;ve been also busy demonstrating to others it&#8217;s value and raising lot of new issues and closing them with our commits (294 requests closed so&nbsp;far).</p>
+<p>So, come and <a href="https://github.com/citellusorg/citellus/issues/new">tell us</a> what else are you missing or how can we improve it to suit your needs (or code them yourself and submit a&nbsp;review!)</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="https://github.com/citellusorg">github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-81705-14']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+</body>
+</html>

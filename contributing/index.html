@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Contributing</title>
+        <link rel="stylesheet" href="https://citellusorg.github.io/theme/css/main.css" />
+        <link href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Citellus Atom Feed" />
+        <link href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate" title="Citellus RSS Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://citellusorg.github.io/">Citellus  <strong>Automate your troubleshooting</strong></a></h1>
+                <nav><ul>
+    
+                        <li><a href="https://citellusorg.github.io/">About</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/citellus/">Citellus</a></li>
+    
+                        <li class="active"><a href="https://citellusorg.github.io/contributing/">Contributing</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/magui/">Magui</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/timeline/">Timeline</a></li>
+                    <li><a href="https://citellusorg.github.io/blog/category/blog/">blog</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+    <h1 class="entry-title">Contributing</h1>
+    
+    <p><strong>Table of&nbsp;contents</strong></p>
+<!-- TOC depthFrom:1 insertAnchor:true orderedList:true -->
+
+<ol>
+<li><a href="#how-to-file-a-bug-report">How to file a bug&nbsp;report</a></li>
+<li><a href="#how-to-contribute-code">How to contribute&nbsp;code</a></li>
+<li><a href="#how-to-write-tests">How to write&nbsp;tests</a></li>
+<li><a href="#how-to-debug-your-test">How to debug your&nbsp;test</a></li>
+</ol>
+<!-- /TOC -->
+
+<p><a id="markdown-how-to-file-a-bug-report" name="how-to-file-a-bug-report"></a></p>
+<h1 id="how-to-file-a-bug-report">How to file a bug report<a class="headerlink" href="#how-to-file-a-bug-report" title="Permanent link">&para;</a></h1>
+<p>If you have any suggestions for improvements please do not hesitate to
+open an <a href="https://github.com/citellusorg/citellus/issues/new">issue</a>.</p>
+<p><a id="markdown-how-to-contribute-code" name="how-to-contribute-code"></a></p>
+<h1 id="how-to-contribute-code">How to contribute code<a class="headerlink" href="#how-to-contribute-code" title="Permanent link">&para;</a></h1>
+<p>We encourage you to contribute new plugins. We use <a href="https://gerrithub.io/">gerrithub</a> for
+reviewing proposed changes. The submission process looking something
+like&nbsp;this:</p>
+<ol>
+<li>
+<p>Clone the citellus&nbsp;repository:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>git clone https://github.com/citellusorg/citellus.git
+</code></pre></div>
+</td></tr></table>
+</li>
+<li>
+<p>Configure the <code>git-review</code> tool:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>git-review -s
+</code></pre></div>
+</td></tr></table>
+</li>
+<li>
+<p>Check out a branch in which to make your&nbsp;changes:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>git checkout -b &quot;your-new-branch&quot;
+</code></pre></div>
+</td></tr></table>
+</li>
+<li>
+<p>Edit your files and validate with&nbsp;tox:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nv">tox</span> # <span class="nv">this</span> <span class="nv">will</span> <span class="nv">check</span> <span class="nv">the</span> <span class="nv">changes</span> <span class="k">for</span> <span class="nv">some</span> <span class="nv">errors</span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li><span class="caps">NOTE</span>: tox will run python 2.7, pep8 and python 3.5 tests, if your environment lacks for example python 3.5, do execute tox -l to see the available tests and skip that one, for&nbsp;example:</li>
+</ol>
+<p><code>sh
+   tox -e pep8
+   tox -e py27
+   # We're skipping tox -e py35 which is also invoked by default when tox is executed without arguments.</code></p>
+<ol>
+<li>In this way, errors that might be relevant to the test environment can be skipped. For example this one reported at issue tracker as <a href="https://github.com/citellusorg/citellus/issues/104">104</a>)</li>
+</ol>
+</li>
+<li>
+<p>Update your local&nbsp;repository:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">git</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">modified_files</span><span class="w"></span>
+<span class="n">git</span><span class="w"> </span><span class="k">commit</span><span class="w"></span>
+
+<span class="k">For</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">please</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">short</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">fix</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="ow">like</span><span class="w"> </span><span class="err">`</span><span class="o">[</span><span class="n">plugins</span><span class="o">][</span><span class="n">openstack</span><span class="o">][</span><span class="n">nova</span><span class="o">]</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="n">nova</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">XXX</span><span class="err">`</span><span class="w"></span>
+
+<span class="k">If</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">commit</span><span class="w"> </span><span class="n">fixes</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">github</span><span class="w"> </span><span class="k">open</span><span class="w"> </span><span class="n">issue</span><span class="p">,</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="err">`</span><span class="n">Closes</span><span class="w"> </span><span class="err">#$</span><span class="n">ISSUEID</span><span class="err">`</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="n">github</span><span class="w"> </span><span class="n">automatically</span><span class="w"> </span><span class="n">closes</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">once</span><span class="w"> </span><span class="n">merged</span><span class="w"> </span><span class="k">referencing</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">commit</span><span class="p">.</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+</li>
+<li>
+<p>Submit your changes for&nbsp;review:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>git-review
+</code></pre></div>
+</td></tr></table>
+</li>
+</ol>
+<p>Then wait for your changes to be reviewed. It is common for reviewers
+to request changes; when this&nbsp;happens:</p>
+<ol>
+<li>
+<p>Edit your files and revalidate with&nbsp;tox:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nv">tox</span> # <span class="nv">this</span> <span class="nv">will</span> <span class="nv">check</span> <span class="nv">the</span> <span class="nv">new</span> <span class="nv">changes</span> <span class="k">for</span> <span class="nv">some</span> <span class="nv">errors</span>
+</code></pre></div>
+</td></tr></table>
+</li>
+<li>
+<p>Update your existing commit. Do not create a new&nbsp;commit!</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>git add $modified_files
+git commit --amend
+</code></pre></div>
+</td></tr></table>
+</li>
+<li>
+<p>Resubmit the&nbsp;change:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>git-review
+</code></pre></div>
+</td></tr></table>
+</li>
+</ol>
+<p>You can see pending and already merged actual changes at: <a href="https://review.gerrithub.io/#/q/project:citellusorg//citellus">https://review.gerrithub.io/#/q/project:citellusorg//citellus</a></p>
+<ol>
+<li>
+<p>Once the new plugin has been submitted you&#8217;ll see some comments from &#8216;Citellus Jenkins&#8217; which is running Unit tests against it (same ones that you run with <code>tox</code>)</p>
+</li>
+<li>
+<p>If Jenkins gives &#8216;Verified +1&#8217;, next step is wait for one reviewer to give final <span class="caps">ACK</span> and merge the&nbsp;change.</p>
+</li>
+</ol>
+<p><a id="markdown-how-to-write-tests" name="how-to-write-tests"></a></p>
+<h1 id="how-to-write-tests">How to write tests<a class="headerlink" href="#how-to-write-tests" title="Permanent link">&para;</a></h1>
+<p>Please refer to the
+<a href="https://github.com/citellusorg/citellus/tree/master/doc/templates">templates</a>
+folder for&nbsp;examples.</p>
+<p>If you want to contribute also Unittests for your plugins, check <a href="TESTING.md"><span class="caps">TESTING</span>.md</a></p>
+<p>For contributing translations check <a href="doc/i18n.md">i18n.md</a></p>
+<p><a id="markdown-how-to-debug-your-test" name="how-to-debug-your-test"></a></p>
+<h1 id="how-to-debug-your-test">How to debug your test<a class="headerlink" href="#how-to-debug-your-test" title="Permanent link">&para;</a></h1>
+<p>We&#8217;ve included a file named <code>env-for.debug.sh</code> in the root folder of citellus repo that allows to be sourced and later execute your&nbsp;script.</p>
+<p>This environment file will define the standard variables Citellus does use&nbsp;like:</p>
+<ul>
+<li>RC_OKAY</li>
+<li>RC_FAILED</li>
+<li>RC_SKIPPED</li>
+<li><span class="caps">TEXTDOMAIN</span></li>
+<li><span class="caps">TEXTOMAINDIR</span></li>
+<li>CITELLUS_BASE</li>
+<li>CITELLUS_LIVE</li>
+<li>CITELLUS_ROOT</li>
+</ul>
+<p>And will preload the&nbsp;common-functions</p>
+<p>The way to use it&nbsp;is:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>. ~/citellus/env-for-debug.sh
+</code></pre></div>
+</td></tr></table>
+<p>Then you can debug your script&nbsp;with:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>sh -x /path/to/your/plugin.sh
+</code></pre></div>
+</td></tr></table>
+<p>Or test individual functions output&nbsp;like:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>is_rpm qemu-kvm-rhev
+</code></pre></div>
+</td></tr></table>
+<p>Please, do note that as some functions do &#8216;exit&#8217; or &#8216;return&#8217; for example executing <code>is_rpm_over</code> will exit the active shell, so&nbsp;beware!!</p>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="https://github.com/citellusorg">github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-81705-14']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+</body>
+</html>

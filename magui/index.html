@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Magui</title>
+        <link rel="stylesheet" href="https://citellusorg.github.io/theme/css/main.css" />
+        <link href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Citellus Atom Feed" />
+        <link href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate" title="Citellus RSS Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://citellusorg.github.io/">Citellus  <strong>Automate your troubleshooting</strong></a></h1>
+                <nav><ul>
+    
+                        <li><a href="https://citellusorg.github.io/">About</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/citellus/">Citellus</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/contributing/">Contributing</a></li>
+    
+                        <li class="active"><a href="https://citellusorg.github.io/magui/">Magui</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/timeline/">Timeline</a></li>
+                    <li><a href="https://citellusorg.github.io/blog/category/blog/">blog</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+    <h1 class="entry-title">Magui</h1>
+    
+    <p><strong>Table of&nbsp;contents</strong></p>
+<!-- TOC depthFrom:1 insertAnchor:true orderedList:false -->
+
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="p">[</span><span class="n">Introduction</span><span class="p">](</span><span class="err">#</span><span class="n">introduction</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">Highlights</span><span class="p">](</span><span class="err">#</span><span class="n">highlights</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">Installation</span><span class="p">](</span><span class="err">#</span><span class="n">installation</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">Usage</span> <span class="n">help</span><span class="p">](</span><span class="err">#</span><span class="n">usage</span><span class="o">-</span><span class="n">help</span><span class="p">)</span>
+    <span class="o">-</span> <span class="p">[</span><span class="n">Running</span> <span class="n">a</span> <span class="n">check</span><span class="p">](</span><span class="err">#</span><span class="n">running</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">check</span><span class="p">)</span>
+        <span class="o">-</span> <span class="p">[</span><span class="n">Running</span> <span class="n">a</span> <span class="n">check</span> <span class="n">against</span> <span class="n">remote</span> <span class="n">hosts</span><span class="p">](</span><span class="err">#</span><span class="n">running</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">check</span><span class="o">-</span><span class="n">against</span><span class="o">-</span><span class="n">remote</span><span class="o">-</span><span class="n">hosts</span><span class="p">)</span>
+        <span class="o">-</span> <span class="p">[</span><span class="n">Autogrouping</span><span class="p">](</span><span class="err">#</span><span class="n">autogrouping</span><span class="p">)</span>
+</code></pre></div>
+</td></tr></table>
+<ul>
+<li><a href="#plugin-development-for-magui">Plugin development for&nbsp;Magui</a></li>
+</ul>
+<!-- /TOC -->
+
+<p><a id="markdown-introduction" name="introduction"></a></p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Magui is a wrapper that calls functions from the Python library of Citellus <a href="https://citellusorg.github.io/citellus/"><span class="caps">README</span></a>.</p>
+<p>Some problems are not detected only on one node, but are made by the aggregation of data across them, for&nbsp;example:</p>
+<ul>
+<li>ntp&nbsp;sync</li>
+<li>galera replication&nbsp;status</li>
+<li>etc</li>
+<li><span class="caps">RHEL</span> release&nbsp;differences</li>
+</ul>
+<p>Magui aims to use Citellus for gathering the data and later, write plugins to analyze that&nbsp;information.</p>
+<p><a id="markdown-highlights" name="highlights"></a></p>
+<h2 id="highlights">Highlights<a class="headerlink" href="#highlights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Reuse saved citellus.json to speed up analisys on several files, retrigger if&nbsp;inconsistencies</p>
+</li>
+<li>
+<p>Plugins use uuid to identify plugin properly and act on&nbsp;them.</p>
+</li>
+<li>
+<p>Allows to get data from remote hosts with&nbsp;ansible-playbook</p>
+</li>
+<li>
+<p>Autogrouping: based on metadata plugin, runs comparisons against sets of host roles, hostnames, etc for better spotting issues across&nbsp;systems.</p>
+</li>
+<li>
+<p>Web interface using <code>citellus.html?json=magui.json</code></p>
+</li>
+</ul>
+<p>Check latest changes on <Changelog.md></p>
+<p><a id="markdown-installation" name="installation"></a></p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Just clone the git repository and execute it from there&nbsp;&#8216;or&#8217;</li>
+<li>use &#8216;pipsi&#8217; or create a python virtual env to install package &#8216;citellus&#8217;
+  <code>sh
+  # pipsi install citellus
+  Already using interpreter /usr/bin/python3
+  Using base prefix '/usr'
+  New python executable in /home/iranzo/.local/venvs/citellus/bin/python3
+  Also creating executable in /home/iranzo/.local/venvs/citellus/bin/python
+  Installing setuptools, pip, wheel...done.
+  Collecting citellus
+  Installing collected packages: citellus
+  Successfully installed citellus-0.1.0.dev1072
+    Linked script /home/iranzo/.local/bin/citellus.py
+    Linked script /home/iranzo/.local/bin/magui.py
+  Done.</code></li>
+<li>Pipsi will take care of installing a virtual environment and link to binary folder so you can call citellus.py or magui.py&nbsp;directly</li>
+<li>Remember that pypi package might not contain all the latests plugins features as the github repo&nbsp;one.</li>
+<li>Container:</li>
+<li>Use our automatically built container in docker hub:<ul>
+<li><code>docker run --user=$(id -u) --rm -v $PATHTOSOSREPORT:/data:Z citellus/citellus:latest /data --entrypoint="magui.py"</code></li>
+</ul>
+</li>
+<li>or build your own using the included <code>Dockerfile</code> in the git checkout.<ul>
+<li><code>docker build . -f Dockerfile.centos7-atomic -t citellus:latest</code> # (from git checkout, then note image&nbsp;id)</li>
+<li><code>docker run --user=$(id -u) --rm -v $PATHTOSOSREPORT:/data:Z citellus:latest /data --entrypoint="magui.py"</code></li>
+</ul>
+</li>
+<li>Notes about using docker:<ul>
+<li>Docker passes as volume the path specified under /data so we do use that parameter with citellus for running the&nbsp;tests.</li>
+<li>The default user id within the container is 10001 and the commands or sosreport permissions doesn&#8217;t allow that user to gather all the information, so the container is required to run as the current&nbsp;user.</li>
+</ul>
+</li>
+</ul>
+<p><a id="markdown-usage-help" name="usage-help"></a></p>
+<h2 id="usage-help">Usage help<a class="headerlink" href="#usage-help" title="Permanent link">&para;</a></h2>
+<p>Plugins for Magui are to be written in Python, check next section for&nbsp;details.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">usage</span><span class="err">:</span><span class="w"> </span><span class="n">magui</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="o">[</span><span class="n">arguments</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-h</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-d {INFO,DEBUG,WARNING,ERROR,CRITICAL}</span><span class="o">]</span><span class="w"></span>
+<span class="w">                            </span><span class="o">[</span><span class="n">--list-plugins</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--description</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-m MPATH</span><span class="o">]</span><span class="w"></span>
+<span class="w">                            </span><span class="o">[</span><span class="n">--output FILENAME</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--run</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--hosts hosts</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-q</span><span class="o">]</span><span class="w"></span>
+<span class="w">                            </span><span class="o">[</span><span class="n">-i SUBSTRING</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-x SUBSTRING</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">-p [0-1000</span><span class="o">]</span><span class="err">]</span><span class="w"></span>
+<span class="w">                            </span><span class="o">[</span><span class="n">-mf MFILTER</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">--lang</span><span class="o">]</span><span class="w"></span>
+<span class="w">                            </span><span class="o">[</span><span class="n">sosreports [sosreports ...</span><span class="o">]</span><span class="err">]</span><span class="w"></span>
+
+<span class="n">Processes</span><span class="w"> </span><span class="n">several</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="n">archives</span><span class="o">/</span><span class="n">sosreports</span><span class="w"> </span><span class="n">scripts</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">uniform</span><span class="w"> </span><span class="n">way</span><span class="p">,</span><span class="w"> </span><span class="k">to</span><span class="w"></span>
+<span class="n">interpret</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">depend</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">several</span><span class="w"> </span><span class="n">systems</span><span class="w"> </span><span class="k">data</span><span class="w"></span>
+
+<span class="n">positional</span><span class="w"> </span><span class="nl">arguments</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="n">sosreports</span><span class="w"></span>
+
+<span class="n">optional</span><span class="w"> </span><span class="nl">arguments</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">help</span><span class="w">            </span><span class="n">show</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">help</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">exit</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">d</span><span class="w"> </span><span class="err">{</span><span class="n">INFO</span><span class="p">,</span><span class="n">DEBUG</span><span class="p">,</span><span class="n">WARNING</span><span class="p">,</span><span class="n">ERROR</span><span class="p">,</span><span class="n">CRITICAL</span><span class="err">}</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">loglevel</span><span class="w"> </span><span class="err">{</span><span class="n">INFO</span><span class="p">,</span><span class="n">DEBUG</span><span class="p">,</span><span class="n">WARNING</span><span class="p">,</span><span class="n">ERROR</span><span class="p">,</span><span class="n">CRITICAL</span><span class="err">}</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Set</span><span class="w"> </span><span class="nf">log</span><span class="w"> </span><span class="k">level</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">plugins</span><span class="w">        </span><span class="k">Print</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">discovered</span><span class="w"> </span><span class="n">Magui</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">exit</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">description</span><span class="w">         </span><span class="k">With</span><span class="w"> </span><span class="n">list</span><span class="o">-</span><span class="n">plugins</span><span class="p">,</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="n">outputs</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="n">description</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">m</span><span class="w"> </span><span class="n">MPATH</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">mpath</span><span class="w"> </span><span class="n">MPATH</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Set</span><span class="w"> </span><span class="k">path</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Magui</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="k">default</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="k">output</span><span class="w"> </span><span class="n">FILENAME</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">o</span><span class="w"> </span><span class="n">FILENAME</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Write</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">JSON</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="n">FILENAME</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">run</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w">             </span><span class="n">Force</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">citellus</span><span class="w"> </span><span class="n">instead</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">reading</span><span class="w"> </span><span class="n">existing</span><span class="w"></span>
+<span class="w">                        </span><span class="s1">&#39;citellus.json&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="o">--</span><span class="n">hosts</span><span class="w"> </span><span class="n">hosts</span><span class="w">         </span><span class="n">Gather</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">ansible</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="n">hosts</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">process</span><span class="p">.</span><span class="w"></span>
+
+<span class="n">Filtering</span><span class="w"> </span><span class="nl">options</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">quiet</span><span class="w">           </span><span class="n">Enable</span><span class="w"> </span><span class="n">quiet</span><span class="w"> </span><span class="n">mode</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">i</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="k">include</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Only</span><span class="w"> </span><span class="k">include</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="nf">substring</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">x</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">exclude</span><span class="w"> </span><span class="nf">SUBSTRING</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Exclude</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="nf">substring</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">[</span><span class="n">0-1000</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">prio</span><span class="w"> </span><span class="o">[</span><span class="n">0-1000</span><span class="o">]</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Only</span><span class="w"> </span><span class="k">include</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">above</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">prio</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">mf</span><span class="w"> </span><span class="n">MFILTER</span><span class="p">,</span><span class="w"> </span><span class="o">--</span><span class="n">mfilter</span><span class="w"> </span><span class="n">MFILTER</span><span class="w"></span>
+<span class="w">                        </span><span class="k">Only</span><span class="w"> </span><span class="k">include</span><span class="w"> </span><span class="n">Magui</span><span class="w"> </span><span class="n">plugins</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">full</span><span class="w"> </span><span class="k">path</span><span class="w"></span>
+<span class="w">                        </span><span class="n">that</span><span class="w"> </span><span class="nf">substring</span><span class="w"></span>
+<span class="w">  </span><span class="c1">--lang                Define locale to use</span>
+</code></pre></div>
+</td></tr></table>
+<p>Magui can be executed using the citellus docker image as well, by modifying
+the&nbsp;entrypoint:</p>
+<p>In a directory structure&nbsp;as:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>/path/to/my/sosreports/
+├── sosreport-overcloud-controller-0
+├── sosreport-overcloud-controller-1
+└── sosreport-overcloud-controller-2
+</code></pre></div>
+</td></tr></table>
+<p><code>docker run --user=$(id -u) --rm --entrypoint="magui.py" -v /path/to/my/sosreports/:/data:Z citellus:latest -q /data/sosreport-overcloud-controller-0/ /data/sosreport-overcloud-controller-1/ /data/sosreport-overcloud-controller-2/</code></p>
+<p><a id="markdown-running-a-check" name="running-a-check"></a></p>
+<h3 id="running-a-check">Running a check<a class="headerlink" href="#running-a-check" title="Permanent link">&para;</a></h3>
+<p>This is an example of execution of Magui against a set of sosreports with <code>seqno</code> plugin of Citellus&nbsp;enabled.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">#magui.py * -i seqno # (filtering for ‘seqno’ plugins.</span>
+<span class="o">{</span><span class="s1">&#39;/home/remote/piranzo/citellus/citellus/plugins/openstack/mysql/seqno.sh&#39;</span>: <span class="o">{</span><span class="s1">&#39;ctrl0.localdomain&#39;</span>: <span class="o">{</span><span class="s1">&#39;err&#39;</span>: <span class="s1">&#39;08a94e67-bae0-11e6-8239-9a6188749d23:36117633\n&#39;</span>,
+                                                                                                   <span class="s1">&#39;out&#39;</span>: <span class="s1">&#39;&#39;</span>,
+                                                                                                   <span class="s1">&#39;rc&#39;</span>: <span class="m">0</span><span class="o">}</span>,
+                                                                             <span class="s1">&#39;ctrl1.localdomain&#39;</span>: <span class="o">{</span><span class="s1">&#39;err&#39;</span>: <span class="s1">&#39;08a94e67-bae0-11e6-8239-9a6188749d23:36117633\n&#39;</span>,
+                                                                                                   <span class="s1">&#39;out&#39;</span>: <span class="s1">&#39;&#39;</span>,
+                                                                                                   <span class="s1">&#39;rc&#39;</span>: <span class="m">0</span><span class="o">}</span>,
+                                                                             <span class="s1">&#39;ctrl2.localdomain&#39;</span>: <span class="o">{</span><span class="s1">&#39;err&#39;</span>: <span class="s1">&#39;08a94e67-bae0-11e6-8239-9a6188749d23:36117633\n&#39;</span>,
+                                                                                                   <span class="s1">&#39;out&#39;</span>: <span class="s1">&#39;&#39;</span>,
+                                                                                                   <span class="s1">&#39;rc&#39;</span>: <span class="m">0</span><span class="o">}}}</span>
+
+On this example, UUID and SEQNO is shown <span class="k">for</span> each controller.
+</code></pre></div>
+</td></tr></table>
+<p><a id="markdown-running-a-check-against-remote-hosts" name="running-a-check-against-remote-hosts"></a></p>
+<h4 id="running-a-check-against-remote-hosts">Running a check against remote hosts<a class="headerlink" href="#running-a-check-against-remote-hosts" title="Permanent link">&para;</a></h4>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1"># Prepare host list in ansible-style</span>
+<span class="nb">echo</span> <span class="s2">&quot;host1&quot;</span> &gt; hosts
+<span class="nb">echo</span> <span class="s2">&quot;host2&quot;</span> &gt;&gt; hostsfile
+
+<span class="c1"># Run magui against them</span>
+./magui.py --hosts hostsfile
+</code></pre></div>
+</td></tr></table>
+<p><a id="markdown-autogrouping" name="autogrouping"></a></p>
+<h4 id="autogrouping">Autogrouping<a class="headerlink" href="#autogrouping" title="Permanent link">&para;</a></h4>
+<p><a href="https://asciinema.org/a/170429"><img src="https://asciinema.org/a/170429.png" width="100%" border=0  alt='Autogrouping dmeo'></a></p>
+<p>Magui does check <code>metadata</code> for finding host roles or hostnames that should be checked together and generates additional json files for&nbsp;them.</p>
+<p><a id="markdown-plugin-development-for-magui" name="plugin-development-for-magui"></a></p>
+<h1 id="plugin-development-for-magui">Plugin development for Magui<a class="headerlink" href="#plugin-development-for-magui" title="Permanent link">&para;</a></h1>
+<p>Please do check <doc/magui-plugin-development.md> for more&nbsp;details.</p>
+<p>Please if you have any idea on any improvements please do not hesitate to open an issue or submit your&nbsp;contributions.</p>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="https://github.com/citellusorg">github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-81705-14']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+</body>
+</html>

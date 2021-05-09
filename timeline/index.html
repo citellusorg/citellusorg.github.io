@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Timeline</title>
+        <link rel="stylesheet" href="https://citellusorg.github.io/theme/css/main.css" />
+        <link href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Citellus Atom Feed" />
+        <link href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate" title="Citellus RSS Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://citellusorg.github.io/">Citellus  <strong>Automate your troubleshooting</strong></a></h1>
+                <nav><ul>
+    
+                        <li><a href="https://citellusorg.github.io/">About</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/citellus/">Citellus</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/contributing/">Contributing</a></li>
+    
+                        <li><a href="https://citellusorg.github.io/magui/">Magui</a></li>
+    
+                        <li class="active"><a href="https://citellusorg.github.io/timeline/">Timeline</a></li>
+                    <li><a href="https://citellusorg.github.io/blog/category/blog/">blog</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+    <h1 class="entry-title">Timeline</h1>
+    
+    <p><strong>Table of&nbsp;contents</strong></p>
+<!-- TOC depthFrom:1 insertAnchor:true orderedList:true -->
+
+<ol>
+<li><a href="#changelog-hilights">Changelog&nbsp;hilights</a></li>
+<li><a href="#2018-03-25">2018-03-25</a></li>
+<li><a href="#2018-03-18">2018-03-18</a></li>
+<li><a href="#2018-03-02">2018-03-02</a></li>
+<li><a href="#2018-02-17">2018-02-17</a></li>
+<li><a href="#2018-02-11">2018-02-11</a></li>
+<li><a href="#2018-01-27">2018-01-27</a></li>
+<li><a href="#2018-01-24">2018-01-24</a></li>
+<li><a href="#2018-01-22">2018-01-22</a></li>
+<li><a href="#2018-01-16">2018-01-16</a><ol>
+<li><a href="#citellus">Citellus</a></li>
+<li><a href="#magui">Magui</a></li>
+</ol>
+</li>
+</ol>
+<!-- /TOC -->
+
+<p><a id="markdown-changelog-hilights" name="changelog-hilights"></a></p>
+<h2 id="changelog-hilights">Changelog hilights<a class="headerlink" href="#changelog-hilights" title="Permanent link">&para;</a></h2>
+<p>This file will contain a manually mantained log of hilights between versions, it&#8217;s not a very extensive detail, but some of the bigger changes/ideas will be added&nbsp;here.</p>
+<p>Check <a href="https://citellusorg.github.io/blog/tag/whatsnew/">What&#8217;s new</a>: tag for more updated&nbsp;information.</p>
+<p><a id="markdown-2018-03-25" name="2018-03-25"></a></p>
+<h2 id="2018-03-25">2018-03-25<a class="headerlink" href="#2018-03-25" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Implement <code>--find</code> to citellus so that it can grep across a folder set for checking historic data for&nbsp;tests.</li>
+</ul>
+<p><a id="markdown-2018-03-18" name="2018-03-18"></a></p>
+<h2 id="2018-03-18">2018-03-18<a class="headerlink" href="#2018-03-18" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Magui autogrouping support, generating files for each comparison set like osp roles, same hostname, etc. It&#8217;s based on metadata plugins&nbsp;generated.</li>
+<li>Skip reexecution if a specified sosreport set was already&nbsp;analyzed.</li>
+</ul>
+<p><a id="markdown-2018-03-02" name="2018-03-02"></a></p>
+<h2 id="2018-03-02">2018-03-02<a class="headerlink" href="#2018-03-02" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Implemented &#8216;faraday-exec&#8217; plugin to generate fake plugins that run and output metadata that later is faked via a datahook to be compared via magui&nbsp;plugins.</li>
+<li>Implemented automatic pypi.org package generation for each master merge that allows to run citellus installed via &#8216;pip&#8217; or&nbsp;&#8216;pipsi&#8217;.</li>
+</ul>
+<p><a id="markdown-2018-02-17" name="2018-02-17"></a></p>
+<h2 id="2018-02-17">2018-02-17<a class="headerlink" href="#2018-02-17" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Implemented &#8216;profiles&#8217; data&nbsp;hook</li>
+<li>Allow to define a text file with include/exclude filter and description that grabs data from the obtained results and shows in one place all return codes and error messages&nbsp;received</li>
+<li>This will allow to define &#8216;healthchecks&#8217; based on other plugins output and generate them&nbsp;dinamycall.</li>
+<li>As it is done as if another plugin was executed, same Web <span class="caps">UI</span> interface is available for checking&nbsp;results.</li>
+</ul>
+<p><a id="markdown-2018-02-11" name="2018-02-11"></a></p>
+<h2 id="2018-02-11">2018-02-11<a class="headerlink" href="#2018-02-11" title="Permanent link">&para;</a></h2>
+<p>Several changes introduced&nbsp;recently:</p>
+<ul>
+<li>New plugins&nbsp;:)</li>
+<li>When running rerun, improved some of the logic to also copy over www so that it matches the version of the json&nbsp;file.</li>
+<li>Improved rerun, to only get results for missing plugins (unless forcerun&nbsp;used)</li>
+<li>Faraday can now accept bundle of files <span class="caps">CSV</span> in the list of files, it will mangle the extension reported name and description to match the file&nbsp;iterated.</li>
+<li>This allows one file to act over several <span class="caps">FS</span> files (for example, <code>policy.json</code> for several&nbsp;services).</li>
+<li><span class="caps">UT</span>&#8217;s</li>
+<li>Some other <span class="caps">UT</span> tweaks to ensure plugins report no data to stdout, and ability to drop bunch of jsons to run that <span class="caps">UT</span> over&nbsp;them.</li>
+<li>We moved data to be a dictionary (instead of array of dictionaries), to better and faster filter on included plugins and others that are dependant on data generated (like Magui&nbsp;ones).</li>
+<li><span class="caps">UT</span> to check for tests that were doing &#8216;echo $RC_&#8217; instead of &#8216;exit&nbsp;$RC_&#8217;</li>
+<li>Citellus&nbsp;www</li>
+<li>Now uses the generated &#8216;name&#8217; for plugins so we can tune it from the framework&nbsp;side.</li>
+<li>Also, auto switches to <code>magui.json</code> when no <code>citellus.json</code> exists, or shows a dropdown to select which one to&nbsp;show.</li>
+</ul>
+<p><a id="markdown-2018-01-27" name="2018-01-27"></a></p>
+<h2 id="2018-01-27">2018-01-27<a class="headerlink" href="#2018-01-27" title="Permanent link">&para;</a></h2>
+<ul>
+<li>DevConf.cz 2018 <a href="https://devconfcz2018.sched.com/event/DJXG/detect-pitfalls-of-osp-deployments-with-citellus">Detect pitfalls of osp deployments with&nbsp;citellus</a></li>
+<li>Recording at <a href="https://www.youtube.com/watch?v=SDzzqrUdn5A">https://www.youtube.com/watch?v=SDzzqrUdn5A</a></li>
+</ul>
+<p><a id="markdown-2018-01-24" name="2018-01-24"></a></p>
+<h2 id="2018-01-24">2018-01-24<a class="headerlink" href="#2018-01-24" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Faraday&nbsp;extension</p>
+</li>
+<li>
+<p>Some files must be equal or different across sosreports, actually we do have <code>release</code> and <code>ceilometer-yaml</code> one that rely on this, but this is hard to mantain as each new file will require a new plugin for Citellus plus a new plugin for&nbsp;Magui.</p>
+</li>
+<li>
+<p>In order to simplify this a new extension has been created so adding a new file to monitor no longer requires new plugins for <code>citellus</code> or <code>magui</code> but just creating a text file with some data within as documented on <code>citellusclient/plugins/faraday/README.md</code></p>
+</li>
+</ul>
+<p><a id="markdown-2018-01-22" name="2018-01-22"></a></p>
+<h2 id="2018-01-22">2018-01-22<a class="headerlink" href="#2018-01-22" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Changed the way we work with sosreports for Citellus and&nbsp;Magui:</li>
+<li>Now all plugins are always executed and filters do act on the output&nbsp;only.</li>
+<li>If the folder is writable, citellus will write <code>citellus.json</code> to sosreport&nbsp;folder.</li>
+<li>If there&#8217;s an existing <code>citellus.json</code> it will be loaded from disk and run skipped unless there are new plugins that require execution. Forcing execution can be indicated with parameter <code>-r</code> to both Magui and&nbsp;Citellus.</li>
+</ul>
+<p><a id="markdown-2018-01-16" name="2018-01-16"></a></p>
+<h2 id="2018-01-16">2018-01-16<a class="headerlink" href="#2018-01-16" title="Permanent link">&para;</a></h2>
+<p><a id="markdown-citellus" name="citellus"></a></p>
+<h3 id="citellus">Citellus<a class="headerlink" href="#citellus" title="Permanent link">&para;</a></h3>
+<ul>
+<li>New functions for bash&nbsp;scripts!</li>
+<li>We&#8217;ve created lot of functions to check different things:<ul>
+<li>installed&nbsp;rpm</li>
+<li>rpm over specific&nbsp;version</li>
+<li>compare dates over X&nbsp;days</li>
+<li>regexp in&nbsp;file</li>
+<li>etc..</li>
+</ul>
+</li>
+<li>Functions do allow to do quicker plugin&nbsp;development.</li>
+<li>save/restore options so they can be loaded automatically for each&nbsp;execution</li>
+<li>Think of enabled filters, excluded,&nbsp;etc</li>
+<li>metadata added for plugins and returned as&nbsp;dictionary</li>
+<li>plugin has a unique <span class="caps">ID</span> for all installations based on plugin relative path and plugin&nbsp;name</li>
+<li>We do use that <span class="caps">ID</span> in magui to select the plugin data we&#8217;ll be acting&nbsp;on</li>
+<li>plugin&nbsp;priority!</li>
+<li>Plugins are assigned a number between 0 and 1000 that represents how likely it&#8217;s going to affect your environment, and you can filter also on it with <code>--prio</code></li>
+<li>extended via &#8216;extensions&#8217; to provide support for other&nbsp;plugins</li>
+<li>moved prior plugins to be <code>core</code> extension</li>
+<li>ansible playbook support via <code>ansible-playbook</code> command</li>
+<li>metadata plugins that just generate metadata (hostname, date for sosreport,&nbsp;etc)</li>
+<li>Web&nbsp;Interface!!</li>
+<li><a href="https://valleedelisle.com/">David Valee Delisle</a> did a great job on preparing an html that loads citellus.json and shows it&nbsp;graphically.</li>
+<li>Thanks to his work, we did extended some other features like priority, categories, etc that are calculated via citellus and consumed via&nbsp;citellus-www.</li>
+<li>Interface can also load <code>magui.json</code> (with <code>?json=magui.json</code>) and show it&#8217;s&nbsp;output.</li>
+<li>We did extend citellus to take <code>--web</code> to automatically create the json named <code>citellus.json</code> on the folder specified with <code>-o</code> and copy the <code>citellus.html</code> file there. So if you provide sosreports over http, you can point to citellus.html to see graphical status! (check latest image at citellus website as <a href="https://github.com/citellusorg/citellus/raw/master/doc/images/www.png">www.png</a>&nbsp;)</li>
+<li>Increased plugin&nbsp;count!</li>
+<li>Now we do have more than 119 across different&nbsp;categories</li>
+<li>A new plugin in python <code>reboot.py</code> that checks for unexpected&nbsp;reboots</li>
+<li>Spectre/Meltdown security&nbsp;checks!</li>
+</ul>
+<p><a id="markdown-magui" name="magui"></a></p>
+<h3 id="magui">Magui<a class="headerlink" href="#magui" title="Permanent link">&para;</a></h3>
+<ul>
+<li>If there&#8217;s an existing <code>citellus.json</code> magui does load it to speed it up process across multiple&nbsp;sosreports.</li>
+<li>Magui can also use <code>ansible-playbook</code> to copy citellus program to remote host and run there the command, and bring back the generated <code>citellus.json</code> so you can quickly run citellus across several hosts without having to manually perform operations or generate&nbsp;sosreports.</li>
+<li>Moved prior data to two&nbsp;plugins:</li>
+<li><code>citellus-outputs</code><ul>
+<li>Citellus plugins output arranged by plugin and&nbsp;sosreport</li>
+</ul>
+</li>
+<li><code>citellus-metadata</code><ul>
+<li>Outputs metadata gathered by <code>metadata</code> plugins in citellus arranged by plugin and&nbsp;sosreport</li>
+</ul>
+</li>
+<li>First plugins that compare data received from citellus on global&nbsp;level</li>
+<li>Plugins are written in python and use each plugin <code>id</code> to just work on the data they know how to&nbsp;process</li>
+<li><code>pipeline-yaml</code><ul>
+<li>Checks if pipeline.yaml and warns if is different across&nbsp;hosts</li>
+</ul>
+</li>
+<li><code>seqno</code><ul>
+<li>Checks latest galera seqno on&nbsp;hosts</li>
+</ul>
+</li>
+<li><code>release</code><ul>
+<li>Reports <span class="caps">RHEL</span> release across hosts and warns if is different across&nbsp;hosts</li>
+</ul>
+</li>
+<li>Enable <code>quiet</code> mode on the data received from citellus as well as local plugins, so only outputs with <span class="caps">ERROR</span> or different output on sosreports is shown, even on magui&nbsp;plugins.</li>
+</ul>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://citellusorg.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://citellusorg.github.io/feeds/all.rss" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="https://github.com/citellusorg">github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-81705-14']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+</body>
+</html>
